@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const LeftSideBar = ({ categories, activeId }) => {
@@ -18,7 +19,7 @@ const LeftSideBar = ({ categories, activeId }) => {
             key={item.category_id}
             className={`${activeId == item.category_id && "bg-[#E7E7E7] "} text-black font-semibold py-4 px-6 rounded-md text-left`}
           >
-            {item.category_name}
+           <Link href={`/category/${item.category_id}`}> {item.category_name}</Link>
           </button>
         ))}
       </div>

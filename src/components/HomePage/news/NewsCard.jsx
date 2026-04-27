@@ -1,18 +1,10 @@
-import { getNewsById } from "@/lib/data";
 import Link from "next/link";
 import React from "react";
 import { FaBookmark, FaEye, FaShareAlt, FaStar } from "react-icons/fa";
 
-const Details = async ({ params }) => {
-    
-    const { id } =await  params;
-    console.log(id);
-    const news = await getNewsById(id)
-    console.log(news);
-    
-
+const NewsCard = ({ news }) => {
   return (
-     <div className=" rounded-md max-w-4xl mx-auto overflow-hidden space-y-2">
+    <div className=" rounded-md overflow-hidden space-y-2">
       {/* News Header/Author */}
       <div className="bg-[#F3F3F3] p-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
@@ -52,11 +44,11 @@ const Details = async ({ params }) => {
           alt="news"
           className="w-full h-[400px] object-cover rounded-md mb-4"
         />
-        <p className="text-sm text-gray-600 mb-2 ">
+        <p className="text-sm text-gray-600 mb-2 line-clamp-3">
           {news.details}
         </p>
-        <Link className="text-orange-400" href={`/category/${news.category_id}`}>
-          See Other for this category
+        <Link className="text-orange-400" href={`/news/${news._id}`}>
+          Read more
         </Link>
       </div>
 
@@ -83,4 +75,4 @@ const Details = async ({ params }) => {
   );
 };
 
-export default Details;
+export default NewsCard;
