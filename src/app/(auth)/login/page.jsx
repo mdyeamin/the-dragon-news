@@ -2,11 +2,13 @@
 import { authClient } from "@/lib/auth-client";
 import { Button, Form, Input } from "@heroui/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
-  //   const [submitted, setSubmitted] = React.useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -18,7 +20,7 @@ const Register = () => {
       email, // required
       password, // required
       rememberMe: true,
-        callbackURL: "/",
+      callbackURL: "/",
     });
     console.log(response, error);
     if (response) {
@@ -78,7 +80,7 @@ const Register = () => {
               isRequired
               {...register("password", { required: "password must required " })}
               placeholder="Enter your password"
-              type="password"
+              type={isVisible ? "text" : "password"}
               variant="flat"
               radius="none"
               classNames={{
@@ -87,6 +89,9 @@ const Register = () => {
                   "h-[55px] bg-[#F3F3F3] rounded-none border-none px-4 transition-all",
               }}
             />
+            <button onClick={() => setIsVisible(!isVisible)}>
+              {isVisible ? <FaEye /> : <FaEyeSlash />}
+            </button>
             {errors.password && (
               <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
