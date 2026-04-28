@@ -9,6 +9,11 @@ const RightSidebar = () => {
     provider: "google",
   });
   }
+  const handleSigninWithGithub= async()=>{
+ const data = await authClient.signIn.social({
+    provider: "github",
+  });
+  }
     return (
         <>
             <div className="mb-8">
@@ -17,7 +22,7 @@ const RightSidebar = () => {
               <button onClick={handleSigninWithGoogle} className="flex items-center justify-center gap-2 border border-blue-500 text-blue-500 py-2 rounded-md hover:bg-blue-50 transition-all">
                 <FaGoogle /> Login with Google
               </button>
-              <button className="flex items-center justify-center gap-2 border border-black text-black py-2 rounded-md hover:bg-gray-100 transition-all">
+              <button onClick={handleSigninWithGithub} className="flex items-center justify-center gap-2 border border-black text-black py-2 rounded-md hover:bg-gray-100 transition-all">
                 <FaGithub /> Login with Github
               </button>
             </div>
