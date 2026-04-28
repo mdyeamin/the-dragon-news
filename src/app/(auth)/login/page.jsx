@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Button, Form, Input } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
@@ -11,8 +12,21 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleLogin = (data) => {
- const {email,password} = data
+  const handleLogin = async (data) => {
+    const { email, password } = data;
+    const { data: response, error } = await authClient.signIn.email({
+      email, // required
+      password, // required
+      rememberMe: true,
+        callbackURL: "/",
+    });
+    console.log(response, error);
+    if (response) {
+      alert("login successful");
+    }
+    if (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -45,12 +59,14 @@ const Register = () => {
               variant="flat"
               radius="none"
               classNames={{
-                  input: "text-[15px] text-[#403F3F] placeholder:text-[#9F9F9F]",
-                  inputWrapper:
+                input: "text-[15px] text-[#403F3F] placeholder:text-[#9F9F9F]",
+                inputWrapper:
                   "h-[55px] bg-[#F3F3F3] rounded-none border-none px-4 transition-all",
-                }}
-                />
-                {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
+              }}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs">{errors.email.message}</p>
+            )}
           </div>
 
           {/* Password Field */}
@@ -71,7 +87,9 @@ const Register = () => {
                   "h-[55px] bg-[#F3F3F3] rounded-none border-none px-4 transition-all",
               }}
             />
-             {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-xs">{errors.password.message}</p>
+            )}
           </div>
 
           {/* Login Button: Height and Font size reduced for professional look */}

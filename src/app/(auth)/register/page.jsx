@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Button, Checkbox, Form, Input, Label } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
@@ -11,9 +12,26 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const handleRegister = (data) => {
+  const handleRegister = async (data) => {
     const { name, photoURL, email, password } = data;
     console.log(name, photoURL, email, password);
+
+    const { data: response, error } = await authClient.signUp.email({
+      name, // required
+      email, // required
+      password, // required
+      image: photoURL,
+      callbackURL: "/",
+    });
+    console.log("data", response, "error", error);
+    if (response?.user) {
+      alert("signUp successful");
+      
+    }
+    if(error){
+        alert(error.message)
+        
+    }
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#F3F3F3] p-4">
@@ -107,6 +125,15 @@ const Register = () => {
             </label>
             <Input
               isRequired
+              minLength={8}
+              validate={(value) => {
+                if (value.length < 8) {
+                  return "Password must be at least 8 characters";
+                }
+                if (!/[A-Z]/.test(value)) {
+                  return "Password must contain at least one uppercase letter";
+                }
+              }}
               {...register("password", { required: "password must required " })}
               name="password"
               type="password"
