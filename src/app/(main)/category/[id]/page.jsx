@@ -4,6 +4,8 @@ import RightSidebar from "@/components/HomePage/news/RightSidebar";
 import { getCategories, getNewsByCategoryId } from "@/lib/data";
 import React from "react";
 
+
+
 const NewsCategory = async ({ params }) => {
   const { id } = await params;
   const categories = await getCategories();

@@ -3,12 +3,24 @@ import Link from "next/link";
 import React from "react";
 import { FaBookmark, FaEye, FaShareAlt, FaStar } from "react-icons/fa";
 
+export async function generateMetadata({ params }) {
+const {id} =await  params
+  const news =await getNewsById(id)
+ console.log(news,"slug");
+ 
+  return {
+    title: news.title,
+    description: news.details,
+    icons: news.thumbnail_url
+  }
+}
+
 const Details = async ({ params }) => {
     
     const { id } =await  params;
-    console.log(id);
+    
     const news = await getNewsById(id)
-    console.log(news);
+    
     
 
   return (
